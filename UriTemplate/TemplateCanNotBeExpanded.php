@@ -22,7 +22,7 @@ class TemplateCanNotBeExpanded extends InvalidArgumentException implements UriEx
 
     public function __construct(string $message = '', string ...$variableNames)
     {
-        parent::__construct($message, 0, null);
+        parent::__construct($message);
 
         $this->variablesNames = $variableNames;
     }

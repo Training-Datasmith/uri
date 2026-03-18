@@ -138,7 +138,7 @@ final class VariableBag implements ArrayAccess, Countable, IteratorAggregate
         return match (true) {
             !is_array($value) => (string) StringCoercionMode::Native->coerce($value),
             !$isNestedListAllowed => throw TemplateCanNotBeExpanded::dueToNestedListOfValue($name),
-            default => array_map(fn ($var) => self::normalizeValue($var, $name, isNestedListAllowed: false), $value),
+            default => array_map(fn (bool|float|int|string $var): string|array => self::normalizeValue($var, $name, isNestedListAllowed: false), $value),
         };
     }
 

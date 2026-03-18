@@ -96,7 +96,7 @@ use const FILTER_VALIDATE_IP;
  * @phpstan-import-type ComponentMap from UriString
  * @phpstan-import-type InputComponentMap from UriString
  */
-final class Uri implements Conditionable, UriInterface, Transformable
+final class Uri implements Conditionable, UriInterface, Transformable, \Stringable
 {
     /**
      * RFC3986 invalid characters.
@@ -443,7 +443,7 @@ final class Uri implements Conditionable, UriInterface, Transformable
 
         /** @var Closure(resource): array{0:string, 1:string} $fromResource */
         $fromResource = function ($stream) use ($finfo, $path, $bufferSize): array {
-            set_error_handler(fn (int $errno, string $errstr, string $errfile, int $errline) => true);
+            set_error_handler(fn (int $errno, string $errstr, string $errfile, int $errline): bool => true);
             $raw = fread($stream, $bufferSize);
             false !== $raw || throw new SyntaxError('The file `'.$path.'` does not exist or is not readable.');
 
@@ -459,7 +459,7 @@ final class Uri implements Conditionable, UriInterface, Transformable
         /** @var Closure(Stringable|string, resource|null): array{0:string, 1:string} $fromPath */
         $fromPath = function (Stringable|string $path, $context) use ($finfo): array {
             $path = (string) $path;
-            set_error_handler(fn (int $errno, string $errstr, string $errfile, int $errline) => true);
+            set_error_handler(fn (int $errno, string $errstr, string $errfile, int $errline): bool => true);
             $raw = file_get_contents(filename: $path, context: $context);
             restore_error_handler();
             false !== $raw || throw new SyntaxError('The file `'.$path.'` does not exist or is not readable.');
@@ -636,8 +636,8 @@ final class Uri implements Conditionable, UriInterface, Transformable
         $server += ['PHP_AUTH_USER' => null, 'PHP_AUTH_PW' => null, 'HTTP_AUTHORIZATION' => ''];
         $user = $server['PHP_AUTH_USER'];
         $pass = $server['PHP_AUTH_PW'];
-        if (str_starts_with(strtolower($server['HTTP_AUTHORIZATION']), 'basic')) {
-            $userinfo = base64_decode(substr($server['HTTP_AUTHORIZATION'], 6), true);
+        if (str_starts_with(strtolower((string) $server['HTTP_AUTHORIZATION']), 'basic')) {
+            $userinfo = base64_decode(substr((string) $server['HTTP_AUTHORIZATION'], 6), true);
             false !== $userinfo || throw new SyntaxError('The user info could not be detected');
             [$user, $pass] = explode(':', $userinfo, 2) + [1 => null];
         }
@@ -693,7 +693,7 @@ final class Uri implements Conditionable, UriInterface, Transformable
     {
         $server += ['IIS_WasUrlRewritten' => null, 'UNENCODED_URL' => '', 'PHP_SELF' => '', 'QUERY_STRING' => null];
         if ('1' === $server['IIS_WasUrlRewritten'] && '' !== $server['UNENCODED_URL']) {
-            return explode('?', $server['UNENCODED_URL'], 2) + [1 => null];
+            return explode('?', (string) $server['UNENCODED_URL'], 2) + [1 => null];
         }
 
         if (isset($server['REQUEST_URI'])) {
@@ -961,7 +961,7 @@ final class Uri implements Conditionable, UriInterface, Transformable
         $pairs = QueryString::parseFromValue($this->query);
         $hasTo = false;
         foreach ($pairs as [$name, $value]) {
-            $headerName = strtolower($name);
+            $headerName = strtolower((string) $name);
             if (in_array($headerName, $mailHeaders, true)) {
                 if (null === $value || !self::validateEmailList($value)) {
                     return false;
@@ -1241,7 +1241,7 @@ final class Uri implements Conditionable, UriInterface, Transformable
         null !== $document || throw new RuntimeException('Unable to extract the document part from the URI path.');
 
         $data = match (true) {
-            str_ends_with((string) $mediaType, ';base64') => (string) base64_decode($document, true),
+            str_ends_with($mediaType, ';base64') => (string) base64_decode($document, true),
             default => rawurldecode($document),
         };
 
@@ -1251,7 +1251,7 @@ final class Uri implements Conditionable, UriInterface, Transformable
             is_resource($destination) => fwrite($destination, $data),
             $destination instanceof Stringable,
             is_string($destination) => (function () use ($destination, $data, $context): int|false {
-                set_error_handler(fn (int $errno, string $errstr, string $errfile, int $errline) => true);
+                set_error_handler(fn (int $errno, string $errstr, string $errfile, int $errline): bool => true);
                 $rsrc = fopen((string) $destination, mode:'wb', context: $context);
                 if (false === $rsrc) {
                     restore_error_handler();
@@ -1264,7 +1264,7 @@ final class Uri implements Conditionable, UriInterface, Transformable
 
                 return $bytes;
             })(),
-            default => throw new TypeError('Unsupported destination type; expected SplFileObject, SplFileInfo, resource or a string; '.(is_object($destination) ? $destination::class : gettype($destination)).' given.'),
+            default => throw new TypeError('Unsupported destination type; expected SplFileObject, SplFileInfo, resource or a string; '.(get_debug_type($destination)).' given.'),
         };
 
         false !== $res || throw new RuntimeException('Unable to write to the destination file.');
@@ -1332,12 +1332,7 @@ final class Uri implements Conditionable, UriInterface, Transformable
             return null;
         }
 
-        $host = IdnaConverter::toUnicode($this->host)->domain();
-        if ($host === $this->host) {
-            return $this->host;
-        }
-
-        return $host;
+        return IdnaConverter::toUnicode($this->host)->domain();
     }
 
     public function isIpv4Host(): bool

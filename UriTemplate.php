@@ -66,7 +66,7 @@ final class UriTemplate implements Stringable
         }
 
         return $variables
-            ->filter(fn ($value, string|int $name) => array_key_exists(
+            ->filter(fn ($value, string|int $name): bool => array_key_exists(
                 $name,
                 array_fill_keys($this->template->variableNames, 1)
             ));

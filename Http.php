@@ -207,7 +207,7 @@ final class Http implements Stringable, Psr7UriInterface, JsonSerializable, Cond
 
     public function __toString(): string
     {
-        return $this->uri->toString();
+        return (string) $this->uri->toString();
     }
 
     public function jsonSerialize(): string

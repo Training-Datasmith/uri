@@ -58,7 +58,7 @@ final class Expression
         $parts = Operator::parseExpression($expression);
 
         return new Expression($parts['operator'], ...array_map(
-            static fn (string $varSpec): VarSpecifier => VarSpecifier::new($varSpec),
+            VarSpecifier::new(...),
             explode(',', $parts['variables'])
         ));
     }
@@ -87,7 +87,7 @@ final class Expression
                     fn (VarSpecifier $varSpecifier): string => $this->operator->expand($varSpecifier, $variables),
                     $this->varSpecifiers
                 ),
-                static fn ($value): bool => '' !== $value
+                static fn (string $value): bool => '' !== $value
             )
         );
 

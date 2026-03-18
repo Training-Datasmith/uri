@@ -102,7 +102,7 @@ class BaseUri implements Stringable, JsonSerializable, UriAccess
 
     public function __toString(): string
     {
-        return $this->uri->__toString();
+        return (string) $this->uri->__toString();
     }
 
     public function origin(): ?self
@@ -278,13 +278,13 @@ class BaseUri implements Stringable, JsonSerializable, UriAccess
             //only meaningful for WHATWG Special URI scheme protocol
             ->when(
                 condition: '' === $uri->getPath() && null !== $uri->getAuthority(),
-                onSuccess: fn (Uri $uri) => $uri->withPath('/'),
+                onSuccess: fn (Uri $uri): \League\Uri\Uri => $uri->withPath('/'),
             )
             //Sorting as per WHATWG URLSearchParams class
             //not included on any equivalence algorithm
             ->when(
                 condition: null !== ($query = $uri->getQuery()) && str_contains($query, '&'),
-                onSuccess: function (Uri $uri) use ($query) {
+                onSuccess: function (Uri $uri) use ($query): \League\Uri\Uri {
                     $pairs = explode('&', (string) $query);
                     sort($pairs);
 
@@ -455,9 +455,13 @@ class BaseUri implements Stringable, JsonSerializable, UriAccess
      */
     final protected function canNotBeRelativize(Psr7UriInterface|UriInterface $uri): bool
     {
-        return !static::componentEquals('scheme', $uri)
-            || !static::componentEquals('authority', $uri)
-            || static::from($uri)->isRelativePath();
+        if (!static::componentEquals('scheme', $uri)) {
+            return true;
+        }
+        if (!static::componentEquals('authority', $uri)) {
+            return true;
+        }
+        return static::from($uri)->isRelativePath();
     }
 
     /**

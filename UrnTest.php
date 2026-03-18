@@ -399,16 +399,16 @@ final class UrnTest extends TestCase
         $start = Urn::new('urn:example:animal:nose');
         $urn = $start
             ->when(
-                fn (Urn $urn) => null === $urn->getRComponent(),
-                fn (Urn $urn) => $urn->withRComponent($query),
-                fn (Urn $urn) => $urn->withRComponent(null),
+                fn (Urn $urn): bool => null === $urn->getRComponent(),
+                fn (Urn $urn): \League\Uri\Urn => $urn->withRComponent($query),
+                fn (Urn $urn): \League\Uri\Urn => $urn->withRComponent(null),
             );
 
         $urnBis = $urn
             ->when(
-                fn (Urn $urn) => null === $urn->getRComponent(),
-                fn (Urn $urn) => $urn->withRComponent($query),
-                fn (Urn $urn) => $urn->withRComponent(null),
+                fn (Urn $urn): bool => null === $urn->getRComponent(),
+                fn (Urn $urn): \League\Uri\Urn => $urn->withRComponent($query),
+                fn (Urn $urn): \League\Uri\Urn => $urn->withRComponent(null),
             );
 
         self::assertSame('urn:example:animal:nose?+foo=bar&fo%26o=b%3Far', $urn->toString());

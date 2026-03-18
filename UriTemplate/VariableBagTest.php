@@ -200,7 +200,7 @@ final class VariableBagTest extends TestCase
         ]);
         self::assertCount(3, $bag);
 
-        $newBag = $bag->filter(fn ($value, $key) => 'foo' === $key);
+        $newBag = $bag->filter(fn ($value, $key): bool => 'foo' === $key);
 
         self::assertFalse($newBag->equals($bag));
         self::assertCount(1, $newBag);
