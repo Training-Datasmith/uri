@@ -14,21 +14,27 @@ declare(strict_types=1);
 namespace League\Uri;
 
 use BackedEnum;
+
+use function is_bool;
+
 use League\Uri\Contracts\Conditionable;
 use League\Uri\Contracts\FragmentDirective;
 use League\Uri\Contracts\Transformable;
 use League\Uri\Contracts\UriComponentInterface;
 use League\Uri\Exceptions\SyntaxError;
 use SensitiveParameter;
+
+use function str_replace;
+
 use Stringable;
+
+use function strpos;
+
 use Throwable;
+
 use TypeError;
 use Uri\Rfc3986\Uri as Rfc3986Uri;
 use Uri\WhatWg\Url as WhatWgUrl;
-
-use function is_bool;
-use function str_replace;
-use function strpos;
 
 final class Builder implements Conditionable, Transformable
 {

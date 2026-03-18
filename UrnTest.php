@@ -13,14 +13,18 @@ declare(strict_types=1);
 
 namespace League\Uri;
 
+use function array_map;
+
 use League\Uri\Components\Query;
 use League\Uri\Exceptions\SyntaxError;
+
+use function parse_url;
+
 use PHPUnit\Framework\Attributes\CoversClass;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-use function array_map;
-use function parse_url;
 use function serialize;
 use function unserialize;
 

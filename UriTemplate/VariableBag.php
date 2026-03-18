@@ -13,22 +13,28 @@ declare(strict_types=1);
 
 namespace League\Uri\UriTemplate;
 
+use function array_filter;
+
+use const ARRAY_FILTER_USE_BOTH;
+
+use function array_key_exists;
+use function array_map;
+
 use ArrayAccess;
 use BackedEnum;
 use Closure;
+
+use function count;
+
 use Countable;
+
+use function is_array;
+
 use IteratorAggregate;
 use League\Uri\StringCoercionMode;
 use Stringable;
+
 use Traversable;
-
-use function array_filter;
-use function array_key_exists;
-use function array_map;
-use function count;
-use function is_array;
-
-use const ARRAY_FILTER_USE_BOTH;
 
 /**
  * @internal The class exposes the internal representation of variable bags

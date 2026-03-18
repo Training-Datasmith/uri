@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace League\Uri\UriTemplate;
 
+use const JSON_THROW_ON_ERROR;
+
 use JsonException;
 use League\Uri\Exceptions\SyntaxError;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -20,9 +22,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Throwable;
 
-use const JSON_THROW_ON_ERROR;
+use Throwable;
 
 #[CoversClass(Template::class)]
 final class TemplateTest extends TestCase

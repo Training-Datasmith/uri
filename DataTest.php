@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * League.Uri (https://uri.thephpleague.com)
  *
@@ -75,7 +77,6 @@ final class DataTest extends TestCase
             'invalid data' => ['data:image/png;base64,°28'],
         ];
     }
-
 
     #[DataProvider('invalidComponentProvider')]
     public function testCreateFromStringFailedWithWrongComponent(string $uri): void

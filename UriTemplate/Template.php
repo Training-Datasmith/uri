@@ -13,21 +13,25 @@ declare(strict_types=1);
 
 namespace League\Uri\UriTemplate;
 
-use BackedEnum;
-use Deprecated;
-use League\Uri\Exceptions\SyntaxError;
-use Stringable;
-
 use function array_filter;
 use function array_map;
 use function array_reduce;
 use function array_unique;
+
+use BackedEnum;
+use Deprecated;
+use League\Uri\Exceptions\SyntaxError;
+
 use function preg_match_all;
 use function preg_replace;
-use function str_replace;
-use function strpbrk;
 
 use const PREG_SET_ORDER;
+
+use function str_replace;
+
+use Stringable;
+
+use function strpbrk;
 
 /**
  * @internal The class exposes the internal representation of a Template and its usage

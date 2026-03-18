@@ -13,15 +13,19 @@ declare(strict_types=1);
 
 namespace League\Uri\UriTemplate;
 
-use League\Uri\Encoder;
-use League\Uri\Exceptions\SyntaxError;
-use Stringable;
-
 use function implode;
 use function is_array;
+
+use League\Uri\Encoder;
+
+use League\Uri\Exceptions\SyntaxError;
+
 use function preg_match;
 use function rawurlencode;
 use function str_contains;
+
+use Stringable;
+
 use function substr;
 
 /**

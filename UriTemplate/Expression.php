@@ -13,15 +13,17 @@ declare(strict_types=1);
 
 namespace League\Uri\UriTemplate;
 
-use Deprecated;
-use League\Uri\Exceptions\SyntaxError;
-use Stringable;
-
 use function array_filter;
 use function array_map;
 use function array_unique;
+
+use Deprecated;
+
 use function explode;
 use function implode;
+
+use League\Uri\Exceptions\SyntaxError;
+use Stringable;
 
 /**
  * @internal The class exposes the internal representation of an Expression and its usage

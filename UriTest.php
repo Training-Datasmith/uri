@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * League.Uri (https://uri.thephpleague.com)
  *
@@ -11,6 +13,10 @@
 
 namespace League\Uri;
 
+use function base64_encode;
+use function dirname;
+use function file_get_contents;
+
 use GuzzleHttp\Psr7\Utils;
 use League\Uri\Components\HierarchicalPath;
 use League\Uri\Components\Port;
@@ -19,16 +25,16 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
+
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\UriInterface as Psr7UriInterface;
-use TypeError;
 
-use function base64_encode;
-use function dirname;
-use function file_get_contents;
 use function serialize;
 use function str_repeat;
 use function stream_context_create;
+
+use TypeError;
+
 use function unlink;
 use function unserialize;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * League.Uri (https://uri.thephpleague.com)
  *
@@ -57,7 +59,6 @@ final class FtpTest extends TestCase
             ],
         ];
     }
-
 
     #[DataProvider('invalidUrlProvider')]
     public function testConstructorThrowInvalidArgumentException(string $uri): void

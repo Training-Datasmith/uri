@@ -15,6 +15,9 @@ namespace League\Uri;
 
 use BackedEnum;
 use Closure;
+
+use function is_bool;
+
 use JsonSerializable;
 use League\Uri\Contracts\Conditionable;
 use League\Uri\Contracts\Transformable;
@@ -22,14 +25,16 @@ use League\Uri\Contracts\UriComponentInterface;
 use League\Uri\Contracts\UriInterface;
 use League\Uri\Exceptions\SyntaxError;
 use League\Uri\UriTemplate\Template;
-use Stringable;
-use Uri\Rfc3986\Uri as Rfc3986Uri;
-use Uri\WhatWg\Url as WhatWgUrl;
 
-use function is_bool;
 use function preg_match;
 use function str_replace;
+
+use Stringable;
+
 use function strtolower;
+
+use Uri\Rfc3986\Uri as Rfc3986Uri;
+use Uri\WhatWg\Url as WhatWgUrl;
 
 /**
  * @phpstan-type UrnSerialize array{0: array{urn: non-empty-string}, 1: array{}}

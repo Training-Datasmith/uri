@@ -13,7 +13,13 @@ declare(strict_types=1);
 
 namespace League\Uri;
 
+use function array_fill_keys;
+use function array_key_exists;
+
 use BackedEnum;
+
+use function class_exists;
+
 use Deprecated;
 use League\Uri\Contracts\UriException;
 use League\Uri\Contracts\UriInterface;
@@ -26,13 +32,10 @@ use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface as Psr7UriInterface;
 use Stringable;
 use Uri\InvalidUriException;
+
 use Uri\Rfc3986\Uri as Rfc3986Uri;
 use Uri\WhatWg\InvalidUrlException;
 use Uri\WhatWg\Url as WhatWgUrl;
-
-use function array_fill_keys;
-use function array_key_exists;
-use function class_exists;
 
 /**
  * Defines the URI Template syntax and the process for expanding a URI Template into a URI reference.

@@ -13,10 +13,51 @@ declare(strict_types=1);
 
 namespace League\Uri;
 
+use function array_filter;
+use function array_key_last;
+use function array_map;
+use function array_pop;
+use function array_shift;
+
 use BackedEnum;
+
+use function base64_decode;
+use function base64_encode;
+use function basename;
+
 use Closure;
+
+use function count;
+
 use Deprecated;
+
+use function dirname;
+use function explode;
+use function fclose;
+use function feof;
+use function file_get_contents;
+
+use const FILEINFO_MIME;
+use const FILEINFO_MIME_TYPE;
+use const FILTER_FLAG_IPV4;
+use const FILTER_NULL_ON_FAILURE;
+use const FILTER_VALIDATE_BOOLEAN;
+use const FILTER_VALIDATE_EMAIL;
+use const FILTER_VALIDATE_IP;
+
+use function filter_var;
+
 use finfo;
+
+use function fopen;
+use function fread;
+use function fwrite;
+use function implode;
+use function in_array;
+use function is_bool;
+use function is_resource;
+use function is_string;
+
 use League\Uri\Contracts\Conditionable;
 use League\Uri\Contracts\FragmentDirective;
 use League\Uri\Contracts\Transformable;
@@ -29,68 +70,47 @@ use League\Uri\Idna\Converter as IdnaConverter;
 use League\Uri\IPv4\Converter as IPv4Converter;
 use League\Uri\IPv6\Converter as IPv6Converter;
 use League\Uri\UriTemplate\TemplateCanNotBeExpanded;
-use Psr\Http\Message\UriInterface as Psr7UriInterface;
-use RuntimeException;
-use SensitiveParameter;
-use SplFileInfo;
-use SplFileObject;
-use Stringable;
-use Throwable;
-use TypeError;
-use Uri\Rfc3986\Uri as Rfc3986Uri;
-use Uri\WhatWg\Url as WhatWgUrl;
 
-use function array_filter;
-use function array_key_last;
-use function array_map;
-use function array_pop;
-use function array_shift;
-use function base64_decode;
-use function base64_encode;
-use function basename;
-use function count;
-use function dirname;
-use function explode;
-use function fclose;
-use function feof;
-use function file_get_contents;
-use function filter_var;
-use function fopen;
-use function fread;
-use function fwrite;
-use function gettype;
-use function implode;
-use function in_array;
-use function is_bool;
-use function is_object;
-use function is_resource;
-use function is_string;
 use function preg_match;
 use function preg_replace;
 use function preg_replace_callback;
+
+use Psr\Http\Message\UriInterface as Psr7UriInterface;
+
 use function rawurldecode;
 use function rawurlencode;
 use function restore_error_handler;
+
+use RuntimeException;
+use SensitiveParameter;
+
 use function set_error_handler;
+
+use SplFileInfo;
+use SplFileObject;
+
 use function sprintf;
 use function str_contains;
 use function str_repeat;
 use function str_replace;
 use function str_starts_with;
+
+use Stringable;
+
 use function strlen;
 use function strpos;
 use function strspn;
+
 use function strtolower;
 use function substr;
+
+use Throwable;
+
 use function trim;
 
-use const FILEINFO_MIME;
-use const FILEINFO_MIME_TYPE;
-use const FILTER_FLAG_IPV4;
-use const FILTER_NULL_ON_FAILURE;
-use const FILTER_VALIDATE_BOOLEAN;
-use const FILTER_VALIDATE_EMAIL;
-use const FILTER_VALIDATE_IP;
+use TypeError;
+use Uri\Rfc3986\Uri as Rfc3986Uri;
+use Uri\WhatWg\Url as WhatWgUrl;
 
 /**
  * @phpstan-import-type ComponentMap from UriString
@@ -240,7 +260,6 @@ final class Uri implements Conditionable, UriInterface, Transformable, \Stringab
         null !== UriScheme::tryFrom($formattedScheme)
         || UriString::isValidScheme($formattedScheme)
         || throw new SyntaxError('The scheme `'.$scheme.'` is invalid.');
-
 
         $cache[$formattedScheme] = 1;
         if (self::MAXIMUM_CACHED_ITEMS < count($cache)) {

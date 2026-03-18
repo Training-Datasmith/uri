@@ -14,6 +14,9 @@ declare(strict_types=1);
 namespace League\Uri;
 
 use Deprecated;
+
+use function is_bool;
+
 use JsonSerializable;
 use League\Uri\Contracts\Conditionable;
 use League\Uri\Contracts\Transformable;
@@ -21,13 +24,14 @@ use League\Uri\Contracts\UriException;
 use League\Uri\Contracts\UriInterface;
 use League\Uri\Exceptions\SyntaxError;
 use League\Uri\UriTemplate\TemplateCanNotBeExpanded;
+
+use function ltrim;
+
 use Psr\Http\Message\UriInterface as Psr7UriInterface;
 use Stringable;
+
 use Uri\Rfc3986\Uri as Rfc3986Uri;
 use Uri\WhatWg\Url as WhatWgUrl;
-
-use function is_bool;
-use function ltrim;
 
 /**
  * @phpstan-import-type InputComponentMap from UriString

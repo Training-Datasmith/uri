@@ -13,30 +13,38 @@ declare(strict_types=1);
 
 namespace League\Uri;
 
+use function array_pop;
+use function array_reduce;
+use function count;
+
 use Deprecated;
+
+use function explode;
+use function implode;
+use function in_array;
+
 use JsonSerializable;
 use League\Uri\Contracts\UriAccess;
 use League\Uri\Contracts\UriInterface;
 use League\Uri\Exceptions\MissingFeature;
+
 use League\Uri\Idna\Converter as IdnaConverter;
 use League\Uri\IPv4\Converter as IPv4Converter;
 use League\Uri\IPv6\Converter as IPv6Converter;
+
+use function preg_match;
+
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface as Psr7UriInterface;
-use Stringable;
 
-use function array_pop;
-use function array_reduce;
-use function count;
-use function explode;
-use function implode;
-use function in_array;
-use function preg_match;
 use function rawurldecode;
 use function sort;
 use function str_contains;
 use function str_repeat;
 use function str_replace;
+
+use Stringable;
+
 use function strpos;
 use function substr;
 
@@ -550,7 +558,6 @@ class BaseUri implements Stringable, JsonSerializable, UriAccess
 
         return UriString::normalize($newUri);
     }
-
 
     /**
      * Remove dot segments from the URI path as per RFC specification.
