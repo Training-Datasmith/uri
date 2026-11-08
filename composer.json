@@ -52,12 +52,12 @@
         "psr/http-factory": "^1"
     },
     "require-dev": {
-        "guzzlehttp/psr7": "^2.8",
+        "guzzlehttp/psr7": "2.13.2",
         "league/uri-components": "7.8.1",
         "league/uri-polyfill": "7.8.1",
-        "nyholm/psr7": "^1.8",
-        "php-http/psr7-integration-tests": "^1.5",
-        "phpunit/phpunit": "^10.5.17"
+        "nyholm/psr7": "1.8.2",
+        "php-http/psr7-integration-tests": "1.5.2",
+        "phpunit/phpunit": "10.5.66"
     },
     "autoload": {
         "psr-4": {

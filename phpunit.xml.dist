@@ -6,6 +6,8 @@
          cacheDirectory=".phpunit.cache"
          failOnRisky="true"
          failOnWarning="true"
+         failOnNotice="true"
+         failOnDeprecation="true"
          beStrictAboutOutputDuringTests="true">
     <testsuites>
         <testsuite name="league-uri">
