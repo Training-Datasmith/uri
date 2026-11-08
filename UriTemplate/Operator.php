@@ -22,7 +22,7 @@ use function is_array;
 use function preg_match;
 use function rawurlencode;
 use function str_contains;
-use function substr;
+use function mb_substr;
 
 /**
  * Processing behavior according to the expression type operator.
@@ -156,7 +156,7 @@ enum Operator: string
         }
 
         if (':' === $varSpec->modifier) {
-            $value = substr($value, 0, $varSpec->position);
+            $value = mb_substr($value, 0, $varSpec->position, 'UTF-8');
         }
 
         return [$this->decode($value), $this->isNamed()];

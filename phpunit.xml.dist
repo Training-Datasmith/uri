@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         cacheDirectory=".phpunit.cache"
+         failOnRisky="true"
+         failOnWarning="true"
+         beStrictAboutOutputDuringTests="true">
+    <testsuites>
+        <testsuite name="league-uri">
+            <file>BaseUriTest.php</file>
+            <file>BuilderTest.php</file>
+            <file>DataTest.php</file>
+            <file>FactoryTest.php</file>
+            <file>FileTest.php</file>
+            <file>FtpTest.php</file>
+            <file>HttpFactoryTest.php</file>
+            <file>HttpTest.php</file>
+            <file>Psr7IntegrationTest.php</file>
+            <file>UriTemplateTest.php</file>
+            <file>UriTest.php</file>
+            <file>UrnTest.php</file>
+            <file>WsTest.php</file>
+            <directory suffix="Test.php">UriTemplate</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

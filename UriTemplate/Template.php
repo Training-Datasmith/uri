@@ -24,8 +24,10 @@ use function array_reduce;
 use function array_unique;
 use function preg_match_all;
 use function preg_replace;
-use function str_replace;
+use function strpos;
 use function strpbrk;
+use function strlen;
+use function substr;
 
 use const PREG_SET_ORDER;
 
@@ -116,11 +118,36 @@ final class Template implements Stringable
 
     private function expandAll(VariableBag $variables): string
     {
-        return array_reduce(
-            $this->expressions,
-            fn (string $uri, Expression $expr): string => str_replace($expr->value, $expr->expand($variables), $uri),
-            $this->value
-        );
+        $markers = [];
+        foreach ($this->expressions as $expression) {
+            $offset = 0;
+            while (false !== ($position = strpos($this->value, $expression->value, $offset))) {
+                $markers[] = [
+                    'position' => $position,
+                    'length' => strlen($expression->value),
+                    'expression' => $expression,
+                ];
+                $offset = $position + 1;
+            }
+        }
+
+        usort($markers, static fn (array $left, array $right): int => $left['position'] <=> $right['position']);
+
+        $expanded = '';
+        $cursor = 0;
+        foreach ($markers as $marker) {
+            if ($marker['position'] < $cursor) {
+                continue;
+            }
+
+            $expanded .= (new Literal(substr($this->value, $cursor, $marker['position'] - $cursor)))->encoded;
+            $expanded .= $marker['expression']->expand($variables);
+            $cursor = $marker['position'] + $marker['length'];
+        }
+
+        $expanded .= (new Literal(substr($this->value, $cursor)))->encoded;
+
+        return $expanded;
     }
 
     public function __toString(): string
